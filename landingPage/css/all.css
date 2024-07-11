@@ -1,0 +1,9 @@
+/* Bootstrap'in verdiği css özelliklerini import ettim */
+/* @import url("css/bootstrap.min.css"); */
+/* Kendi gireceğim css kodlarını import ettim */
+/* @import url("custom/extra.css");*/
+/* Google font da bulunan iki tane font ailesini import ettim */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto+Slab:wght@100;300;400&display=swap');
+/* Bootstrap iconlarını da çekebilmek için import ettim */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");

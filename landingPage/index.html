@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Design</title>
+    <!--Sitenin sahibini yazarını gösterir -->
+    <meta name="author" content="Ekrem Dinç">
+    <!-- Sitenin açıklamasını özetini gösterir -->
+    <meta name="description" content="web design">
+    <!--Hangi anahtar kelimelerle bu siteyi tanımlayacağımızı gösterir.-->
+    <meta name="keywords" content="web,tasarım,dizayn,programlama">
+    <link href="img/bootstrap.png" rel="icon">
+    <link rel="stylesheet" href="css/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/custom/extra.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <style>
+        @import url("css/all.css");
+    </style>
+
+</head>
+
+<body id="page-body">
+    <!--Navbar Alanı-->
+    <!--Navbar : navbar-expand-lg ekran küçülünce menü çıkacak -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top " id="mainNavbar">
+        <div class="container">
+            <a href="#page-body" class="navbar-brand text-uppercase" title="new design link">New Design</a>
+            <!--Ekran daraldığında görülecek buton-->
+            <!--Buton Özellikleri
+        data-bs-toggle="offcanvas" : Butonun ne olarak kullanılacağının bilgisini verir.
+        data-bs-target="#myNavbar" : Tıklandığında neyi açacağının bilgisini verir.
+        aria-controls="myNavbar" aria-label="menü açma butonu" : Ekran okuyucular için açıklamalar
+        aria-expanded="false" : Açık mı gelsin yoksa kapalı mı olsun 
+        navbar-toggler-icon : Tagler (hamburger menü iconu) iconunu ekliyoruz
+        -->
+            <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#myNavbar"
+                aria-controls="myNavbar" aria-label="menü açma butonu" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Canvas Açılması İçin Özellikler
+        offcanvas offcans-end : Offcanvas oluşturduk ve sayfanın sağında gözükecek dedik
+        tabindex="-1" : Ekran okuyuculardan gizlemek için index -1 yaptık.
+        id="myNavbar" : Hedef verdik.
+        aria-labelledby="myLabel" : Ekran okuyucular için bağlantı verdik.
+        Header : Header içerisine başlık ve kapat butonu verdik.
+        Body : Menü değerlerini gireceğimiz alan
+        -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="myNavbar" aria-labelledby="myLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="myLabel">Menü</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Kapat"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end  flex-grow-1 text-uppercase ms-auto py-lg-2">
+                        <li class="nav-item"><a href="#services" class="nav-link btn-close-canvas">Services</a></li>
+                        <li class="nav-item"><a href="#portfolio" class="nav-link btn-close-canvas">Portfolio</a></li>
+                        <li class="nav-item"><a href="#about" class="nav-link btn-close-canvas">About</a></li>
+                        <li class="nav-item"><a href="#team" class="nav-link btn-close-canvas">Team</a></li>
+                        <li class="nav-item"><a href="#contact" class="nav-link btn-close-canvas">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!--Header Alanı-->
+    <header class="backImage text-white text-center">
+        <div class="container">
+            <div class="backImage-sub mb-4">Stüdyomuza Hoş Geldin!</div>
+            <!--Text uppercase ile tüm harfleri büyük harf yaptık-->
+            <div class="backImage-heading text-uppercase">Tanıştığımıza Memnun Olduk</div>
+            <!--Buton özellikleri : Buton - kırmızı - büyük - large ve üstünde 4 padding - Tüm harfleri büyüt - Daha kalın yaz-->
+            <a href="#services" class="btn btn-danger btn-lg p-lg-4 text-uppercase fw-bolder">Daha Fazla Anlat</a>
+        </div>
+    </header>
+
+    <!--Services-->
+    <section id="services" class="mySection">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="s-heading text-uppercase fw-bold">Services</h2>
+                <h3 class="s-subheading text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat,
+                    accusamus?</h3>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center m-auto"
+                        style="width: 8rem; height: 8rem;" aria-hidden="true">
+                        <i class="bi bi-cart" style="font-size: 4.5rem;"></i>
+                    </div>
+                    <h4 class="my-3 fw-bold">E-Ticaret</h4>
+                    <p class="text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod nihil, vero
+                        illo quisquam
+                        aspernatur expedita assumenda tempore? Voluptas consequuntur est velit beatae, nemo iusto at
+                        voluptatem. Maiores quis asperiores molestiae!</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center m-auto"
+                        style="width: 8rem; height: 8rem;" aria-hidden="true">
+                        <i class="bi bi-laptop" style="font-size: 4.5rem;"></i>
+                    </div>
+                    <h4 class="my-3 fw-bold">Duyarlı Tasarım</h4>
+                    <p class="text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod nihil, vero
+                        illo quisquam
+                        aspernatur expedita assumenda tempore? Voluptas consequuntur est velit beatae, nemo iusto at
+                        voluptatem. Maiores quis asperiores molestiae!</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center m-auto"
+                        style="width: 8rem; height: 8rem;" aria-hidden="true">
+                        <i class="bi bi-shield-plus" style="font-size: 4.5rem;"></i>
+                    </div>
+                    <h4 class="my-3 fw-bold">Web Güvenliği</h4>
+                    <p class="text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod nihil, vero
+                        illo quisquam
+                        aspernatur expedita assumenda tempore? Voluptas consequuntur est velit beatae, nemo iusto at
+                        voluptatem. Maiores quis asperiores molestiae!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Portfolio-->
+    <section id="portfolio" class="mySection bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="s-heading fw-bold">PORTFOLIO</h2>
+                <h3 class="s-subheading text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
+            </div>
+            <div class="row gy-4">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="p-item">
+                        <a href="#PModal1" class="p-link" data-bs-toggle="modal">
+                            <div class="p-hover">
+                                <div class="ph-content text-white">
+                                    <i class="bi bi-plus"></i>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="img/portföy/pexels-ann-h-14936128.jpg" alt="">
+                        </a>
+                        <div class="p-caption text-center bg-white p-4">
+                            <div class="pc-heading">Karaprens</div>
+                            <div class="pc-subheading text-muted">İllüstrasyon</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="p-item">
+                        <a href="#PModal2" class="p-link" data-bs-toggle="modal">
+                            <div class="p-hover">
+                                <div class="ph-content text-white">
+                                    <i class="bi bi-plus"></i>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="img/portföy/pexels-mister-mister-2442888.jpg" alt="">
+                        </a>
+                        <div class="p-caption text-center bg-white p-4">
+                            <div class="pc-heading">Keşif</div>
+                            <div class="pc-subheading text-muted">Grafik Tasarım</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="p-item">
+                        <a href="#PModal3" class="p-link" data-bs-toggle="modal">
+                            <div class="p-hover">
+                                <div class="ph-content text-white">
+                                    <i class="bi bi-plus"></i>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="img/portföy/pexels-rodnae-productions-7842986.jpg" alt="">
+                        </a>
+                        <div class="p-caption text-center bg-white p-4">
+                            <div class="pc-heading">Çizgisel Evren</div>
+                            <div class="pc-subheading text-muted">Kimlik</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="p-item">
+                        <a href="#PModal4" class="p-link" data-bs-toggle="modal">
+                            <div class="p-hover">
+                                <div class="ph-content text-white">
+                                    <i class="bi bi-plus"></i>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="img/portföy/pexels-ann-h-15309646.jpg" alt="">
+                        </a>
+                        <div class="p-caption text-center bg-white p-4">
+                            <div class="pc-heading">Matrix</div>
+                            <div class="pc-subheading text-muted">Markalaşma</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="p-item">
+                        <a href="#PModal5" class="p-link" data-bs-toggle="modal">
+                            <div class="p-hover">
+                                <div class="ph-content text-white">
+                                    <i class="bi bi-plus"></i>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="img/portföy/pexels-rodnae-productions-10474227.jpg" alt="">
+                        </a>
+                        <div class="p-caption text-center bg-white p-4">
+                            <div class="pc-heading">Derin Çizgi</div>
+                            <div class="pc-subheading text-muted">Web Site Tasarımı</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="p-item">
+                        <a href="#PModal6" class="p-link" data-bs-toggle="modal">
+                            <div class="p-hover">
+                                <div class="ph-content text-white">
+                                    <i class="bi bi-plus"></i>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="img/portföy/pexels-andrew-neel-6633920.jpg" alt="">
+                        </a>
+                        <div class="p-caption text-center bg-white p-4">
+                            <div class="pc-heading">Düş Penceresi</div>
+                            <div class="pc-subheading text-muted">Fotoğrafçılık</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!--ABOUT-->
+    <section id="about" class="mySection">
+        <div class="container">
+            <div class="text-center mb-5 pb-3">
+                <h2 class="s-heading text-uppercase fw-bold">About</h2>
+                <h3 class="s-subheading text-muted">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum,
+                    quis.</h3>
+            </div>
+            <ul class="timeline">
+                <li>
+                    <div class="t-image">
+                        <img class="img-fluid rounded-circle" src="img/about/about-001.png" alt="">
+                    </div>
+                    <div class="t-panel">
+                        <div class="t-heading">
+                            <h4>2009-2013</h4>
+                            <h4 class="text-muted">Mütevazi Başlangıcımız</h4>
+                        </div>
+                        <div class="t-body">
+                            <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim ullam
+                                perferendis iste ipsam consequatur aliquid! Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Similique, facilis. Lorem ipsum dolor sit amet, consectetur</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="t-inverted">
+                    <div class="t-image">
+                        <img class="img-fluid rounded-circle" src="img/about/about-002.png" alt="">
+                    </div>
+                    <div class="t-panel">
+                        <div class="t-heading">
+                            <h4>Nisan 2014</h4>
+                            <h4 class="text-muted">Bir ajans doğuyor</h4>
+                        </div>
+                        <div class="t-body">
+                            <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim ullam
+                                perferendis iste ipsam consequatur aliquid! Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Officia, velit? Lorem ipsum dolor sit amet consectetur, adipisicing
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="t-image">
+                        <img class="img-fluid rounded-circle" src="img/about/about-003.png" alt="">
+                    </div>
+                    <div class="t-panel">
+                        <div class="t-heading">
+                            <h4>Kasım 2015</h4>
+                            <h4 class="text-muted">Tam Hizmete Geçiş</h4>
+                        </div>
+                        <div class="t-body">
+                            <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim ullam
+                                perferendis iste ipsam consequatur aliquid! Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Dolorum, ipsum. Lorem ipsum dolor sit amet consectetur adipisicing</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="t-inverted">
+                    <div class="t-image">
+                        <img class="img-fluid rounded-circle" src="img/about/about-004.png" alt="">
+                    </div>
+                    <div class="t-panel">
+                        <div class="t-heading">
+                            <h4>Eylül 2021</h4>
+                            <h4 class="text-muted">İkinci Aşamaya Geçiş</h4>
+                        </div>
+                        <div class="t-body">
+                            <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim ullam
+                                perferendis iste ipsam consequatur aliquid! Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Nisi, quisquam! Lorem ipsum dolor sit amet consectetur adipisicing</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="t-inverted">
+                    <div class="t-image">
+                        <h4>Hikayemizin <br> bir parçası <br> ol!</h4>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!--Team-->
+    <section id="team" class="mySection bg-light">
+        <div class="container">
+            <div class="text-center mb-5 pb-3">
+                <h2 class="s-heading text-uppercase fw-bold">Team</h2>
+                <h3 class="s-subheading text-muted">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum,
+                    quis.</h3>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="t-member text-center">
+                        <img class="mx-auto rounded-circle" src="img/team/ekrem.jpg" alt="">
+                        <h4>Ekrem DİNÇ</h4>
+                        <p class="text-muted">Bilgisayar Mühendisi</p>
+                        <a href="#" class="btn btn-info mx-2 btn-social">
+                            <i class="bi bi-twitter text-white"></i>
+                        </a>
+                        <a href="#" class="btn btn-primary mx-2 btn-social">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="btn btn-danger mx-2 btn-social">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="t-member text-center">
+                        <img class="mx-auto rounded-circle" src="img/team/doguu.jpg" alt="">
+                        <h4>Doğukan UĞURELLİ</h4>
+                        <p class="text-muted">Bilgisayar Mühendisi</p>
+                        <a href="#" class="btn btn-info mx-2  btn-social">
+                            <i class="bi bi-twitter text-white"></i>
+                        </a>
+                        <a href="#" class="btn btn-primary mx-2  btn-social">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="btn btn-danger mx-2  btn-social">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="t-member text-center">
+                        <img class="mx-auto rounded-circle" src="img/team/cansuu.jpg" alt="">
+                        <h4>Cansu KOÇ</h4>
+                        <p class="text-muted">Bilgisayar Mühendisi</p>
+                        <a href="#" class="btn btn-info mx-2  btn-social">
+                            <i class="bi bi-twitter text-white"></i>
+                        </a>
+                        <a href="#" class="btn btn-primary mx-2 btn-social">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="btn btn-danger mx-2 btn-social">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <p class="text-muted">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Totam quia dolore
+                        id, sunt temporibus cupiditate esse voluptates facere? A, hic sit deserunt reiciendis magnam
+                        iusto commodi ab incidunt sunt recusandae. Vel atque numquam temporibus tempora a. Veritatis
+                        similique voluptatum omnis vitae, placeat repudiandae expedita quo. Doloribus provident illo
+                        blanditiis inventore.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--clients-->
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-sm-6 col-md-3 my-3">
+                <a href="#">
+                    <img class="img-fluid d-block mx-auto" id="img-logo" src="img/team/google.svg" alt="">
+                </a>
+            </div>
+            <div class="col-sm-6 col-md-3 my-3">
+                <a href="#">
+                    <img class="img-fluid d-block mx-auto" id="img-logo" src="img/team/ibm.svg" alt="">
+                </a>
+            </div>
+            <div class="col-sm-6 col-md-3 my-3">
+                <a href="#">
+                    <img class="img-fluid d-block mx-auto" id="img-logo" src="img/team/facebook.svg" alt="">
+                </a>
+            </div>
+            <div class="col-sm-6 col-md-3 my-3">
+                <a href="#">
+                    <img class="img-fluid d-block mx-auto" id="img-logo" src="img/team/microsoft.svg" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!--contact-->
+    <section id="contact" class="mySection">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="s-heading text-uppercase fw-bold text-white">Contact</h2>
+                <h3 class="s-subheading text-white">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum,
+                    quis.</h3>
+            </div>
+            <form class="needs-validation" action="result.php" id="FrmContact" novalidate>
+                <div class="row align-items-stretch mb-5">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-4">
+                            <input type="text" id="name" class="form-control" placeholder="Adınız" required
+                                maxlength="40" aria-describedby="ErrName">
+                            <label for="name">Adınız
+                                <span class="text-danger" aria-hidden="true">*</span>
+                                <span class="visually-hidden">Zorunlu alan</span>
+                            </label>
+                            <div class="invalid-feedback" id="ErrName"></div>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input type="email" id="email" class="form-control" placeholder="Email" required
+                                maxlength="100" aria-describedby="ErrEmail">
+                            <label for="email">Email
+                                <span class="text-danger" aria-hidden="true">*</span>
+                                <span class="visually-hidden">Zorunlu alan</span>
+                            </label>
+                            <div class="invalid-feedback" id="ErrEmail"></div>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input type="tel" id="phone" class="form-control" placeholder="Phone Number" required
+                                maxlength="15" aria-describedby="ErrPhone">
+                            <label for="phone">Phone Number
+                                <span class="text-danger" aria-hidden="true">*</span>
+                                <span class="visually-hidden">Zorunlu alan</span>
+                            </label>
+                            <div class="invalid-feedback" id="ErrPhone"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating form-textarea mb-md-0">
+                            <textarea class="form-control" id="message" placeholder="Message" required
+                                maxlength="300"></textarea>
+                            <label for="message">Message
+                                <span class="text-danger" aria-hidden="true">*</span>
+                                <span class="visually-hidden">Zorunlu alan</span>
+                            </label>
+                            <div class="invalid-feedback" id="ErrMessage"></div>
+                        </div>
+                        <div class="text-white text-end">
+                            <span id="current-character">0</span>
+                            <span> / 300</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-danger btn-lg text-uppercase py-3" id="BtnContact">Send
+                        Message</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!--Footer-->
+    <footer class="footer py-4 text-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-start text-muted">
+                    Copyright &copy New Design 2023
+                </div>
+                <div class="col-lg-4 my-3 my-lg-0 text-center">
+                    <a href="#" class="btn btn-info mx-2 btn-social">
+                        <i class="bi bi-twitter text-white"></i>
+                    </a>
+                    <a href="#" class="btn btn-primary mx-2 btn-social">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="#" class="btn btn-danger mx-2 btn-social">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="#" class="link-info text-decoration-none me-3">Gizlilik Politikası</a>
+                    <a href="#" class="link-secondary text-decoration-none">Anasayfa</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!--Portfolio modals-->
+    <!--1-->
+    <div class="modal fade p-modal" id="PModal1" tabindex="-1" role="dialog" aria-labelledby="myTitle1"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content text-center">
+                <div class="close-modal" data-bs-dismiss="modal" aria-label="kapat">
+                    <img src="img/portföy/close.png" class="close" width="100%" height="100%" alt="">
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="modal-body">
+                                <h2 class="text-uppercase mb-3" id="myTitle1">Gökyüzü</h2>
+                                <p class="intro text-muted fst-italic">Lorem ipsum dolor, sit amet consectetur
+                                    adipisicing elit.
+                                    Mollitia, dignissimos.</p>
+                                <img class="img-fluid d-block mx-auto" src="img/portföy/pexels-ann-h-14936128.jpg"
+                                    alt="">
+                                <p class="my-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum enim
+                                    sint debitis libero odio optio fuga asperiores blanditiis quisquam mollitia. Lorem
+                                    ipsum dolor sit amet, consectetur adipisicing elit. Nostrum tempore, tenetur facere
+                                </p>
+                                <ul class="list-inline mb-4">
+                                    <li><strong>Müşteri:</strong> Karaprens</li>
+                                    <li><strong>Kategori:</strong> İllüstrasyon</li>
+                                </ul>
+                                <button class="btn btn-danger btn-lg text-uppercase py-3" data-bs-dismiss="modal"
+                                    type="button">Projeyi Kapat <i class="bi bi-x-lg ms-1"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--2-->
+    <div class="modal fade p-modal" id="PModal2" tabindex="-1" role="dialog" aria-labelledby="myTitle2"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content text-center">
+                <div class="close-modal" data-bs-dismiss="modal" aria-label="kapat">
+                    <img src="img/portföy/close.png" class="close" width="100%" height="100%" alt="">
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="modal-body">
+                                <h2 class="text-uppercase mb-3" id="myTitle1">Gökyüzü</h2>
+                                <p class="intro text-muted fst-italic">Lorem ipsum dolor, sit amet consectetur
+                                    adipisicing elit.
+                                    Mollitia, dignissimos.</p>
+                                <img class="img-fluid d-block mx-auto"
+                                    src="img/portföy/pexels-mister-mister-2442888.jpg" alt="">
+                                <p class="my-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum enim
+                                    sint debitis libero odio optio fuga asperiores blanditiis quisquam mollitia. Lorem
+                                    ipsum dolor sit amet, consectetur adipisicing elit. Nostrum tempore, tenetur facere
+                                </p>
+                                <ul class="list-inline mb-4">
+                                    <li><strong>Müşteri:</strong> Keşif</li>
+                                    <li><strong>Kategori:</strong> Grafik Tasarım</li>
+                                </ul>
+                                <button class="btn btn-danger btn-lg text-uppercase py-3" data-bs-dismiss="modal"
+                                    type="button">Projeyi Kapat <i class="bi bi-x-lg ms-1"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--3-->
+    <div class="modal fade p-modal" id="PModal3" tabindex="-1" role="dialog" aria-labelledby="myTitle3"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content text-center">
+                <div class="close-modal" data-bs-dismiss="modal" aria-label="kapat">
+                    <img src="img/portföy/close.png" class="close" width="100%" height="100%" alt="">
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="modal-body">
+                                <h2 class="text-uppercase mb-3" id="myTitle1">Gökyüzü</h2>
+                                <p class="intro text-muted fst-italic">Lorem ipsum dolor, sit amet consectetur
+                                    adipisicing elit.
+                                    Mollitia, dignissimos.</p>
+                                <img class="img-fluid d-block mx-auto"
+                                    src="img/portföy/pexels-rodnae-productions-7842986.jpg" alt="">
+                                <p class="my-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum enim
+                                    sint debitis libero odio optio fuga asperiores blanditiis quisquam mollitia. Lorem
+                                    ipsum dolor sit amet, consectetur adipisicing elit. Nostrum tempore, tenetur facere
+                                </p>
+                                <ul class="list-inline mb-4">
+                                    <li><strong>Müşteri:</strong> Çizgisel Evren</li>
+                                    <li><strong>Kategori:</strong> Kimlik</li>
+                                </ul>
+                                <button class="btn btn-danger btn-lg text-uppercase py-3" data-bs-dismiss="modal"
+                                    type="button">Projeyi Kapat <i class="bi bi-x-lg ms-1"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--4-->
+    <div class="modal fade p-modal" id="PModal4" tabindex="-1" role="dialog" aria-labelledby="myTitle4"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content text-center">
+                <div class="close-modal" data-bs-dismiss="modal" aria-label="kapat">
+                    <img src="img/portföy/close.png" class="close" width="100%" height="100%" alt="">
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="modal-body">
+                                <h2 class="text-uppercase mb-3" id="myTitle1">Gökyüzü</h2>
+                                <p class="intro text-muted fst-italic">Lorem ipsum dolor, sit amet consectetur
+                                    adipisicing elit.
+                                    Mollitia, dignissimos.</p>
+                                <img class="img-fluid d-block mx-auto" src="img/portföy/pexels-ann-h-15309646.jpg"
+                                    alt="">
+                                <p class="my-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum enim
+                                    sint debitis libero odio optio fuga asperiores blanditiis quisquam mollitia. Lorem
+                                    ipsum dolor sit amet, consectetur adipisicing elit. Nostrum tempore, tenetur facere
+                                </p>
+                                <ul class="list-inline mb-4">
+                                    <li><strong>Müşteri:</strong> Matrix</li>
+                                    <li><strong>Kategori:</strong> Markalaşma</li>
+                                </ul>
+                                <button class="btn btn-danger btn-lg text-uppercase py-3" data-bs-dismiss="modal"
+                                    type="button">Projeyi Kapat <i class="bi bi-x-lg ms-1"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--5-->
+    <div class="modal fade p-modal" id="PModal5" tabindex="-1" role="dialog" aria-labelledby="myTitle5"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content text-center">
+                <div class="close-modal" data-bs-dismiss="modal" aria-label="kapat">
+                    <img src="img/portföy/close.png" class="close" width="100%" height="100%" alt="">
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="modal-body">
+                                <h2 class="text-uppercase mb-3" id="myTitle1">Gökyüzü</h2>
+                                <p class="intro text-muted fst-italic">Lorem ipsum dolor, sit amet consectetur
+                                    adipisicing elit.
+                                    Mollitia, dignissimos.</p>
+                                <img class="img-fluid d-block mx-auto"
+                                    src="img/portföy/pexels-rodnae-productions-10474227.jpg" alt="">
+                                <p class="my-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum enim
+                                    sint debitis libero odio optio fuga asperiores blanditiis quisquam mollitia. Lorem
+                                    ipsum dolor sit amet, consectetur adipisicing elit. Nostrum tempore, tenetur facere
+                                </p>
+                                <ul class="list-inline mb-4">
+                                    <li><strong>Müşteri:</strong> Derin Çizgi</li>
+                                    <li><strong>Kategori:</strong> Web Tasarımı</li>
+                                </ul>
+                                <button class="btn btn-danger btn-lg text-uppercase py-3" data-bs-dismiss="modal"
+                                    type="button">Projeyi Kapat <i class="bi bi-x-lg ms-1"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--6-->
+    <div class="modal fade p-modal" id="PModal6" tabindex="-1" role="dialog" aria-labelledby="myTitle6"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content text-center">
+                <div class="close-modal" data-bs-dismiss="modal" aria-label="kapat">
+                    <img src="img/portföy/close.png" class="close" width="100%" height="100%" alt="">
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="modal-body">
+                                <h2 class="text-uppercase mb-3" id="myTitle1">Gökyüzü</h2>
+                                <p class="intro text-muted fst-italic">Lorem ipsum dolor, sit amet consectetur
+                                    adipisicing elit.
+                                    Mollitia, dignissimos.</p>
+                                <img class="img-fluid d-block mx-auto" src="img/portföy/pexels-andrew-neel-6633920.jpg"
+                                    alt="">
+                                <p class="my-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum enim
+                                    sint debitis libero odio optio fuga asperiores blanditiis quisquam mollitia. Lorem
+                                    ipsum dolor sit amet, consectetur adipisicing elit. Nostrum tempore, tenetur facere
+                                </p>
+                                <ul class="list-inline mb-4">
+                                    <li><strong>Müşteri:</strong> Düş Penceresi</li>
+                                    <li><strong>Kategori:</strong> Fotoğrafçılık</li>
+                                </ul>
+                                <button class="btn btn-danger btn-lg text-uppercase py-3" data-bs-dismiss="modal"
+                                    type="button">Projeyi Kapat <i class="bi bi-x-lg ms-1"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--Bootstrap ve kendi oluşturduğum js dosyalarını çektim-->
+    <script src="js/js/bootstrap.bundle.min.js"></script>
+    <script src="js/custom/extra.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js"
+        integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
