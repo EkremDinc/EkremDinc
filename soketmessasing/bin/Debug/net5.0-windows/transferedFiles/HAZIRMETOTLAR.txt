@@ -1,0 +1,189 @@
+	//String.Compare--->Karşılaştırma yapar.Aynıysa 0 döndürür değilse -1 veya 1 döndürür.
+ Console.Write("Kullanıcı adı giriniz:");
+            string kullanıcıAdı = Console.ReadLine();
+            SİFREBELİRLE:
+            Console.Write("Şifreyi giriniz:");
+            string sifre = Console.ReadLine();
+            Console.Write("Girdiğiniz şifreyi yeniden giriniz:");
+            string sifre2 = Console.ReadLine();
+            int karsılastırma = String.Compare(sifre ,sifre2);
+            if (karsılastırma == 0)
+            {
+                Console.WriteLine("Kullanıcı adı ve şifre uyuşuyor.Kullanıcı Adı={0},Şifre={1}",kullanıcıAdı,sifre);
+            }
+            else
+            {
+                Console.WriteLine("Uyuşmuyor.Yeniden giriniz.");
+                goto SİFREBELİRLE;
+            }
+
+
+//String.Concat---->Parantez içinde yazılan verileri veya değişkenleri string veri tipinde birleştirmeye yarar.
+            string tcno = "12343242";
+            string ad = "Furkan";
+            string soyad = "Coşkunca";
+            double maas = 150000;
+            int cocuksayisi = 2;
+            string birlestirme = String.Concat(tcno + " " + ad + " " + soyad + " " + maas + " " + cocuksayisi);
+            Console.WriteLine(birlestirme);
+
+//String.Format---->Program yazarken bazı metinleri, ifadeleri belli bir biçimde yazmamız, düzenlememiz gerekir. 
+Bunu yapabilmek için String.Format metodu kullanılır.
+            string a1 = "11111111111";
+            string a2 = "Ahmet Dağsever";
+            int a3 = 2500;
+            double a4 = 5055055555;
+
+            string b1 = "22222222222";
+            string b2 = "Mustafa Türkyılmaz";
+            int b3 = 980;
+            double b4 = 5445445454;
+
+            Console.WriteLine("Tc Kimlik No | Adı Soyadı           | Maas    | Telefon No      |");
+
+
+            Console.WriteLine(String.Format("{0,-12} | {1,-20} | {2:0000000) | {3:(###) ### ## ## |",a1 , a2 , a3 , a4));
+            Console.WriteLine(String.Format("{0,-12} | {1,-20} | {2:0000000) | {3:(###) ### ## ## |", b1, b2, b3, b4));
+
+
+
+ //String.IsNullOrEmpty()----->String türündeki bir değişkene değer atanıp atanmadığını kontrol etmek için kullanılır.Değişkenin değeri mevcutsa geriye false,değilse true döner.
+            string ogrno, isim, soyisim;
+            Console.Write("Öğrenci numarasını giriniz:");
+            ogrno = Console.ReadLine();
+            Console.Write("İsim giriniz:");
+            isim = Console.ReadLine();
+            Console.Write("Soiyisim giriniz:");
+            soyisim = Console.ReadLine();
+
+            if (String.IsNullOrEmpty(ogrno) == true)
+            {
+                Console.WriteLine("Öğrenci numarasu boş geçilemez!");
+            }
+            if (String.IsNullOrEmpty(isim) == true)
+            {
+                Console.WriteLine("İsim boş geçilemez!");
+            }
+            if (String.IsNullOrEmpty(soyisim) == true) 
+            {
+                Console.WriteLine("Soyisim boş bırakılamaz!");
+            }
+            if(String.IsNullOrEmpty(ogrno)==false && String.IsNullOrEmpty(isim) == false && String.IsNullOrEmpty(soyisim) == false)
+            {
+                Console.WriteLine("Kayıt işlemi başarılı bir şekilde gerçekleştirilmiştir :)");
+            }
+
+
+
+
+
+
+//Contains()------>Bu yöntem sayesinde string bir ifade de tek bir karakter araması yapabiliriz.Aradığımız ifade varsa true,yoksa false değeri döner.
+            string ad, soyad;
+            bool arama_ad, arama_soyad;
+            Console.Write("Adınızı giriniz:");
+            ad = Console.ReadLine();
+            Console.Write("Soyadınızı giriniz:");
+            soyad = Console.ReadLine();
+            arama_ad = rakamara(ad);
+            arama_soyad = rakamara(soyad);
+            if (arama_ad == true)
+                Console.WriteLine("Ad içerisinde rakam kullanılmamalı!");
+            if (arama_soyad == true)
+                Console.WriteLine("Soyad içerisinde rakam kullanılmamalı!");
+            if (arama_ad == false && arama_soyad == false)
+                Console.WriteLine("Kayıt işlemi başarı ile tamamlanmıştır.");
+        public static bool rakamara(string aranacakmetin)
+        {
+            if (aranacakmetin.Contains('0') == true)
+                return true;
+            else if (aranacakmetin.Contains('1') == true)
+                return true;
+            else if (aranacakmetin.Contains('2') == true)
+                return true;
+            else if (aranacakmetin.Contains('3') == true)
+                return true;
+            else if (aranacakmetin.Contains('4') == true)
+                return true;
+            else if (aranacakmetin.Contains('5') == true)
+                return true;
+            else if (aranacakmetin.Contains('6') == true)
+                return true;
+            else if (aranacakmetin.Contains('7') == true)
+                return true;
+            else if (aranacakmetin.Contains('8') == true)
+                return true;
+            else if (aranacakmetin.Contains('9') == true)
+                return true;
+            else
+                return false;
+        }
+
+
+
+
+
+
+
+
+            string adsoyad = "Furkan Coşkunca";
+            string[] dizi = adsoyad.Split(' ');
+            for (int i = 0; i < dizi.Length; i++)
+            {
+                Console.WriteLine(dizi[i]);
+            }
+-----------------------------------------------
+ //StartsWith()
+            string tcno;
+            Console.Write("TC no giriniz:");
+            tcno = Console.ReadLine();
+            if(tcno.StartsWith('0')==true)
+                Console.WriteLine("Tc kimlik numarası 0 ile başlamaz.");
+            else 
+                Console.WriteLine("Tc kimlik numarası 0 ile başlamıyor.");
+
+
+
+ //ToUpper()
+            string sehiradı;
+            Console.Write("Şehir adını giriniz:");
+            sehiradı = Console.ReadLine();
+            switch (sehiradı.ToUpper())
+            {
+                case "ANKARA":
+                    Console.Write("06");
+                    break;
+                case "İSTANBUL":
+                    Console.Write("34");
+                    break;
+                default:
+                    Console.Write("İl bulunamadı.");
+                    break;
+            }
+
+
+
+
+//Replace()
+            string kelime,yenikelime;
+            Console.Write("Kelimeyi giriniz:");
+            kelime = Console.ReadLine();
+            yenikelime = kelime;
+            yenikelime = yenikelime.Replace('F', 'f');
+            yenikelime = yenikelime.Replace('n', 'N');
+            if(kelime!=yenikelime)
+                Console.WriteLine("Düzeltme yapılmıştır.");
+                Console.WriteLine("Girilen Kelime={0} Düzeltilen Kelime={1}", kelime, yenikelime);
+
+
+
+
+
+
+
+
+
+
+
+
+

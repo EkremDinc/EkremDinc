@@ -1,0 +1,1008 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace soketmessasing
+{
+    static class Program
+    {
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
+        }
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace soketmessasing
+{
+    public class Dosya
+    {
+        public string filePath { get; set; }
+        public string fileName { get; set; }
+    }
+
+    [Serializable]
+    class Mesaj
+    {
+        public string gonderen;
+        private string SPN_Key;
+        public bool isSifreli { get; private set; }
+        public bool dosyaEkliMi { get; private set; }
+        public string icerik;
+        public string fileName { get; private set; }
+        public byte[] dosyaByte { get; private set; }
+        //Mesaja dosya iliştirme fonksiyonu
+        public void DosyaEkle(string filePath, string fileName)
+        {
+            var fileBytes = File.ReadAllBytes(filePath);
+            //Dosyayı sıkıştırıp kaydediyoruz mesaja
+            var compressedFileBytes = DosyaDonusumleri.Compress(fileBytes);
+            this.dosyaByte = compressedFileBytes;
+            this.fileName = fileName;
+            dosyaEkliMi = true;
+        }
+        //Mesaja dosya iliştirme fonksiyonu
+        public void DosyaEkle(byte[] FileAsByteArray, string fileName)
+        {
+            //Dosyayı sıkıştırıp kaydediyoruz mesaja
+            var compressedFileBytes = DosyaDonusumleri.Compress(FileAsByteArray);
+            this.dosyaByte = compressedFileBytes;
+            this.fileName = fileName;
+            dosyaEkliMi = true;
+        }
+
+        /// <summary>
+        /// Mesajdaki verileri verilen anahtar bilgisine göre SPN şifreleme algoritmasıyla şifreler.
+        /// </summary>
+        /// <param name="key"></param>
+        public void Sifrele(string key)
+        {
+            icerik = SPN_Chiper.SPN_Sifrele(icerik, key)[1];
+            gonderen = SPN_Chiper.SPN_Sifrele(gonderen, key)[1];
+            fileName = SPN_Chiper.SPN_Sifrele(fileName, key)[1];
+
+            if(dosyaEkliMi)
+            {
+                List<string> stringArrayFile = new List<string>();
+                for (int i = 0; i < dosyaByte.Length;)
+                {
+                    var dosyaBlock64 = Convert.ToString(dosyaByte[i], 2).PadLeft(8, '0');
+                    while (++i % 8 != 0 && i < dosyaByte.Length)
+                    {
+                        dosyaBlock64 += Convert.ToString(dosyaByte[i], 2).PadLeft(8, '0');
+                    }
+                    //dosyanın sonuna geldiginde 64bitlik karakter yoksa sonunu null degerle doldur.
+                    dosyaBlock64 = dosyaBlock64.PadRight(64, '0');
+
+                    var sifreliBlock64 = SPN_Chiper.SPN_Sifrele(dosyaBlock64, key, true)[1];
+                    stringArrayFile.Add(sifreliBlock64);
+
+                }
+
+                List<byte> byteArray = new List<byte>();
+                for (int i = 0; i < stringArrayFile.Count; i++)
+                {
+                    var sifreliBlock64 = stringArrayFile[i];
+
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(0, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(8, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(16, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(24, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(32, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(40, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(48, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(56, 8), 2));
+                }
+
+                dosyaByte = byteArray.ToArray();
+               
+            }
+            isSifreli = true;
+            SPN_Key = SPN_Chiper.SPN_Sifrele(key, key)[1];
+        }
+    
+        /// <summary>
+        /// Mesajdaki şifrelenmiş keyi parametre olarak gönderilen key açabilirse key doğrudur. 
+        /// Tüm verilerin şifresini kaldırır.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool Desifrele(string key)
+        {
+            var sifreleyenAnahtar = SPN_Chiper.SPN_Cozumle(SPN_Key, key, true)[0];
+            //Eger desifrede kullanilan anahtar sifrelemede kullanilanile ayni ise desifrele.
+            if (sifreleyenAnahtar != key)
+                return false;
+
+           
+            icerik = SPN_Chiper.SPN_Cozumle(icerik, key, true)[0];
+            gonderen = SPN_Chiper.SPN_Cozumle(gonderen, key, true)[0];
+            fileName = SPN_Chiper.SPN_Cozumle(fileName, key, true)[0];
+
+            icerik = DosyaDonusumleri.RemoveInvalidChars(icerik);
+            gonderen = DosyaDonusumleri.RemoveInvalidChars(gonderen);
+            fileName = DosyaDonusumleri.RemoveInvalidChars(fileName);
+
+            if (dosyaEkliMi)
+            {
+                List<string> stringArrayFile = new List<string>();
+                for (int i = 0; i < dosyaByte.Length;)
+                {
+                    var dosyaBlock64 = Convert.ToString(dosyaByte[i], 2).PadLeft(8, '0');
+                    while (++i % 8 != 0 && i < dosyaByte.Length)
+                    {
+                        dosyaBlock64 += Convert.ToString(dosyaByte[i], 2).PadLeft(8, '0');
+                    }
+                    //dosyanın sonuna geldiginde 64bitlik karakter yoksa sonunu null degerle doldur.
+                    dosyaBlock64 = dosyaBlock64.PadRight(64, '0');
+
+
+                    stringArrayFile.Add(dosyaBlock64);
+
+                }
+
+                List<byte> byteArray = new List<byte>();
+                for (int i = 0; i < stringArrayFile.Count; i++)
+                {
+                    var sifreliBlock64 = SPN_Chiper.SPN_Cozumle(stringArrayFile[i], key, true)[1];
+
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(0, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(8, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(16, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(24, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(32, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(40, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(48, 8), 2));
+                    byteArray.Add(Convert.ToByte(sifreliBlock64.Substring(56, 8), 2));
+                }
+
+                dosyaByte =  byteArray.ToArray();
+            }
+
+            SPN_Key = null;
+            isSifreli = false;
+            return true;
+
+        }
+
+        /// <summary>
+        /// Dosyayı arzulanan klasöre çıkartır. Tabi eğer mesaj kilitli değilse.
+        /// </summary>
+        /// <param name="directory"></param>
+        /// <returns>Dosyayı dışarı aktarıp aktarmadıgı bilgisi döner.</returns>
+        public bool DosyayiDisaAktar(string directory="")
+        {
+
+            if (!isSifreli)
+            {
+                //Dosya sifreli degilse doyayi disari aktariyioruz. ama once decompress ediyoruz.
+                var decompressedFileBytes = DosyaDonusumleri.Decompress(this.dosyaByte);
+                return DosyaDonusumleri.ByteArrayToFile(decompressedFileBytes, fileName, directory);
+            }
+            return false;
+        }
+    }
+}
+
+
+using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
+namespace soketmessasing
+{
+    public class Serializator
+    {
+        //
+        //
+        /// <summary>
+        /// Nesneyi Byte array olarak serialize eder.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static byte[] ToByteArray<T>(T obj)
+        {
+
+            //Deger nullsa null döndür.
+            if (obj == null)
+                return null;
+            BinaryFormatter bf = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bf.Serialize(ms, obj);
+                return ms.ToArray();
+            }
+        }
+
+        //
+        //
+        /// <summary>
+        /// byte array olan veriyi geri istenen türe deserialize eder.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static T FromByteArray<T>(byte[] data)
+        {
+            if (data == null)
+                return default(T);
+            BinaryFormatter bf = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream(data))
+            {
+                object obj = bf.Deserialize(ms);
+                
+                return (T)obj;
+            }
+        }
+
+        
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace soketmessasing
+{
+    class SHA256_Chiper
+    {
+      
+        /// <summary>
+        /// Parametre olarak gonderilen string veriyi SHA-256 algoritmasina gore hashleyerek geri dondurur.
+        /// </summary>
+        /// <param name="randomString">Hashlenecek herhangi bir string veri.</param>
+        /// <returns>Paremetre olarak aldığı string verinin hash halini döndürür.</returns>
+        public static string StringToHash(string randomString)
+        {
+            var crypt = new SHA256Managed();
+            var hash = new StringBuilder();
+            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(randomString));
+            foreach (byte theByte in crypto)
+            {
+                hash.Append(theByte.ToString("x2"));
+            }
+            return hash.ToString();
+        }
+
+        /// <summary>
+        /// Parametre olarak aldıgı byteArrayi hashler.
+        /// </summary>
+        /// <param name="fileBytes"></param>
+        /// <returns>hashlenmis byte array verisini dondurur.</returns>
+        public static string FileToHash(byte[] fileBytes)
+        {
+            using (SHA256 mySHA256 = SHA256.Create())
+            {
+                // Compute the hash of the fileStream.
+                byte[] hashValue = mySHA256.ComputeHash(fileBytes);
+                // Write the name and hash value of the file to the console.
+
+                return ByteArrayToString(hashValue);
+             
+            }
+        }
+
+        // Display the byte array in a readable format.
+        private static string ByteArrayToString(byte[] array)
+        {
+            var hash = "";
+            for (int i = 0; i < array.Length; i++)
+            {
+                hash += array[i].ToString("x2");
+            }
+            return hash;
+        }
+
+
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Windows.Forms;
+namespace soketmessasing
+{
+    class SocketClient
+    {
+        /// <summary>
+        /// Bagli olunan serverin ip portunu dondurur.
+        /// </summary>
+        /// <returns></returns>
+        public EndPoint GetRemoteEndPoint()
+        {
+            if (server != null)
+            {
+                return server.RemoteEndPoint;
+            }
+            else 
+                return null;
+        }
+
+        public bool _isConnect = false;
+        private Socket server = null;
+        public List<Mesaj> gelenMesajlar = new List<Mesaj>();
+       
+        /// <summary>
+        /// İp adresi ve port bilgisi verilen sunucuya baglanma istegi gonderir. Baglanma gerceklesirse true doner.
+        /// </summary>
+        /// <param name="ipAdresi"></param>
+        /// <param name="port"></param>
+        /// <returns>Baglantinin gerceklesip gerceklesmedigi bilgisi.</returns>
+        public bool ConnectToServer(IPAddress ipAdresi, int port = 11000)
+        {
+            server = new Socket(ipAdresi.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                if (!_isConnect)
+                {
+                    server.Connect(ipAdresi, port);
+                    _isConnect = true;
+                    Thread th_listenServ = new Thread(DinleServer);
+                    th_listenServ.Start();
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show(
+                       "Zaten bir servere bağlısınız.", "Bağlantı Kurulamadı",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message, "Bağlantı Kurulamadı",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+            return false;
+
+        }
+
+        /// <summary>
+        /// Clientin Serverla olan baglantisni kopartir.
+        /// </summary>
+        public void DisconnectFromServer()
+        {
+            
+            try
+            {
+                if (server != null)
+                {
+                    server.Dispose();
+                    server = null;
+                    _isConnect = false;
+                }
+                else
+                    MessageBox.Show(
+                       "Zaten bir servere bagli degilsiniz.", "Bağlantı Kesilemedi",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message, "Bağlantı Kesilemedi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+
+        }
+
+        private bool IsServerDisconnect()
+        {
+            try
+            {
+
+                if (server.Poll(100, SelectMode.SelectRead))
+                {
+                    if (!server.Connected)
+                        return true;
+                    // Something bad has happened, shut down
+                    else
+                        return false;
+                    // There is data waiting to be read"
+                }
+            }
+            catch (Exception) { }
+            return false;
+
+        }
+
+        /// <summary>
+        /// Bagli sunucuya bir mesaj gonderir.
+        /// </summary>
+        /// <param name="mesaj"></param>
+        /// <returns></returns>
+        public bool SendMessage(Mesaj mesaj)
+        {
+            
+            if(server != null && !IsServerDisconnect())
+            {
+                server.SendTimeout = 1000;
+                var yollanacakBytes = Serializator.ToByteArray<Mesaj>(mesaj);
+                var gidenByte = server.Send(yollanacakBytes);
+                
+                return yollanacakBytes.Length == gidenByte;
+           
+            }
+           
+
+            return false;
+        }
+
+        /// <summary>
+        /// Sunucudan gelen mesajlari donusturup gelenMesajlar icerisine atar. 
+        /// Sürekli sunucuyu dinler
+        /// </summary>
+        public void DinleServer()
+        {
+            int gelenByte = 0;
+            byte[] buffer = new byte[1024];
+
+            while (_isConnect)
+            {
+                List<byte> okunanBytes = new List<byte>();
+                while (server.Available > 0)
+                {
+                
+                    //clientten okunan byte sayısı
+                    gelenByte = server.Receive(buffer, 0, buffer.Length, SocketFlags.None);
+
+                    //gelen mesajin okunan bytlarini kaydediyoruz.
+                    okunanBytes.AddRange(buffer.Take(gelenByte));
+                }
+
+                //okuma bittiginde bir mesaj okunduysa donusturup gelen mesajlar listesine atiyoruz
+                if (okunanBytes.Count > 0)
+                {
+                   
+                    var alinanMesaj = Serializator.FromByteArray<Mesaj>(okunanBytes.ToArray());
+  
+
+                    gelenMesajlar.Add(alinanMesaj);
+                    if (alinanMesaj.dosyaEkliMi)
+                        alinanMesaj.DosyayiDisaAktar("transferedFiles/");
+
+                }
+
+                Thread.Sleep(1000);
+            }
+        }
+   
+
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Windows.Forms;
+
+namespace soketmessasing
+{
+
+    class SocketServer
+    {
+        private  bool _isAktif = false;
+        private bool _isWaitingForConnect = false;
+        Socket listener = null;
+        Socket _client = null;
+        public enum ServerDurum
+        {
+            NULL,
+            BaglantiBekleniyor,
+            BaglantiKuruldu,
+            VeriBekleniyor,
+            VeriAliniyor,
+            VeriAlindi,
+            Kapali,
+        };
+
+        /// <summary>
+        /// Serverin anlık durumunu string olarak doner.
+        /// </summary>
+        /// <returns></returns>
+        public string GetDurum()
+        {
+            string _durum = "";
+            switch (this.durum)
+            {
+                case SocketServer.ServerDurum.BaglantiBekleniyor:
+                    _durum = "Baglanti bekleniyor...";
+                    break;
+                case SocketServer.ServerDurum.BaglantiKuruldu:
+                    _durum = "Baglanti kuruldu.";
+                    break;
+                case SocketServer.ServerDurum.VeriBekleniyor:
+                    _durum = "Veri bekleniyor...";
+                    break;
+                case SocketServer.ServerDurum.VeriAliniyor:
+                    _durum = "Veri aliniyor...";
+                    break;
+                case SocketServer.ServerDurum.VeriAlindi:
+                    _durum = "Veri alindi.";
+                    break;
+                case SocketServer.ServerDurum.Kapali:
+                    _durum = "Server kapali.";
+                    break;
+                default:
+                    _durum = "---";
+                    break;
+
+            }
+            return _durum;
+        }
+
+        /// <summary>
+        /// Serverin anlık pozisyonunu tutar.
+        /// </summary>
+        public  ServerDurum durum { get; private set; }
+
+        /// <summary>
+        /// Clientten gelen mesajlarin tutuldugu liste.
+        /// </summary>
+        public  List<Mesaj> gelenMesajlar = new List<Mesaj>();
+
+        /// <summary>
+        /// Serveri aktif hale getirir.
+        /// </summary>
+        /// <param name="ipAdresim"></param>
+        /// <param name="port"></param>
+        /// <returns></returns>
+        public SocketServer StartServer(IPAddress ipAdresim, int port=11000)
+        {
+            _isAktif = true;
+            listener = new Socket(ipAdresim.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                listener.Bind(new IPEndPoint(ipAdresim, port));
+
+                Thread th_waitConn = new Thread(WaitForConnection);
+                if(!_isWaitingForConnect)
+                    th_waitConn.Start();
+
+                return this;
+                
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                   ex.Message, "Sunucu başlatılamadı",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Warning);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Bize bagli clientin ip port bilgisini dondurur.
+        /// </summary>
+        /// <returns></returns>
+        public EndPoint GetRemoteEndPoint()
+        {
+            if (_client != null && !IsClientDisconnect(_client))
+            {
+                return _client.RemoteEndPoint;
+            }
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Bir clientin baglanmasini bekleyen dongu
+        /// </summary>
+        public void WaitForConnection()
+        {
+            //Server durumu aktifse bir client baglanmasini bekle.
+            while (_isAktif)
+            {
+                try
+                {
+                    durum = ServerDurum.BaglantiBekleniyor;
+                    listener.Listen(1);
+                    durum = ServerDurum.BaglantiBekleniyor;
+
+                    var client = listener.Accept();
+                    durum = ServerDurum.BaglantiKuruldu;
+                    this._client = client;
+                    ClientDinle();
+                }
+                catch (Exception) { }
+
+            }
+            durum = ServerDurum.Kapali;
+        }
+        
+        /// <summary>
+        /// serveri kapatir
+        /// </summary>
+        public void CloseServer()
+        {
+            _isAktif = false;
+            listener.Close();
+            listener = null;
+            DisconnectFromClient();
+        }
+
+        /// <summary>
+        /// Client ile server arasindaki baglantiyi keser.
+        /// </summary>
+        public void DisconnectFromClient()
+        {
+            try
+            {
+                if (_client != null)
+                {
+                    _client.Disconnect(false);
+                    _client.Close();
+                    _client = null;
+                }
+            }
+            catch (Exception)
+            { }
+
+
+
+        }
+        
+        /// <summary>
+        /// Clientin baglantisinin kesilip kesilmedigi bilgisini dondurur.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        private  bool IsClientDisconnect(Socket client)
+        {
+            try
+            {
+                if(client != null)
+                if (client.Poll(0, SelectMode.SelectRead))
+                {
+                    byte[] buff = new byte[1];
+                    if (client.Receive(buff, SocketFlags.Peek) == 0)
+                    {
+                        // Client disconnected
+                        return true;
+                    }
+                }
+            }
+            catch (Exception) { }
+            return false;
+
+        }
+
+        /// <summary>
+        /// Clientten gelen mesajlari gelenMesajlar icerisine atar.
+        /// </summary>
+        private void ClientDinle()
+        {
+            int gelenByte = 0;
+            byte[] buffer  = new byte[1024];
+            
+            while (!IsClientDisconnect(_client) && _isAktif)
+            {
+                durum = ServerDurum.VeriBekleniyor;
+
+                List<byte> okunanBytes = new List<byte>();
+                while (_client.Available > 0)
+                {
+                    durum = ServerDurum.VeriAliniyor;
+
+                    //clientten okunan byte sayısı
+                    gelenByte = _client.Receive(buffer, 0, buffer.Length, SocketFlags.None);
+                    
+                    //gelen mesajin okunan bytlarini kaydediyoruz.
+                    okunanBytes.AddRange(buffer.Take(gelenByte));
+                }
+
+                //okuma bittiginde bir mesaj okunduysa donusturup gelen mesajlar listesine atiyoruz
+                if (okunanBytes.Count > 0)
+                {
+                    var alinanMesaj = Serializator.FromByteArray<Mesaj>(okunanBytes.ToArray());
+                    durum = ServerDurum.VeriAlindi;
+                    gelenMesajlar.Add(alinanMesaj);
+                    if (alinanMesaj.dosyaEkliMi)
+                        //Serializator.ByteArrayToFile("gelenDosyalar/"+alinanMesaj.fileName, alinanMesaj.dosyaByte);
+                        alinanMesaj.DosyayiDisaAktar("transferedFiles/");
+                }
+
+
+                Thread.Sleep(1000);
+            }
+         
+            durum = ServerDurum.BaglantiBekleniyor;
+        }
+
+        /// <summary>
+        /// Mesaji bagli cliente yollar.
+        /// </summary>
+        /// <param name="mesaj"></param>
+        /// <returns>Dosyanın hepsinin yollanıp yollanmadıgı bilgisini dondurur</returns>
+        public bool SendMessage(Mesaj mesaj)
+        {
+  
+
+            if (_client != null && !IsClientDisconnect(_client))
+            {
+                _client.SendTimeout = 1000;
+                var yollanacakBytes = Serializator.ToByteArray<Mesaj>(mesaj);
+                var gidenByte = _client.Send(yollanacakBytes);
+
+                return yollanacakBytes.Length == gidenByte;
+
+            }
+
+
+            return false;
+        }
+
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+
+namespace soketmessasing
+{
+    class SPN_Chiper
+    {
+
+        //
+        //
+        /// <summary>
+        /// String değeri İkilik tabanda tekrar stringe çevirir. her karakteri 8 bitlik bloklara yazar.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string StringToBinary_ASCII(string data)
+        {
+            if (data == null || data == "")
+            {
+
+                return "";
+            }
+
+            char[] turkishChars = { 'ş', 'ğ', 'ü', 'ç', 'ö', 'İ', 'ı' };
+            char[] englishChars = { 's', 'g', 'u', 'c', 'o', 'I', 'i' };
+
+            for (int i = 0; i < turkishChars.Length; i++)
+            {
+
+                data = data.Replace(turkishChars[i], englishChars[i]);
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in data.ToCharArray())
+            {
+                sb.Append(Convert.ToString(c, 2).PadLeft(8, '0'));
+            }
+            return sb.ToString();
+        }
+        
+        //
+        //
+        /// <summary>
+        /// 8 bitlik bloklara yazılmış her karakteri birleştirir ve normal bir metne dönüşütürür.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string BinaryToString_ASCII(string data)
+        {
+            List<Byte> byteList = new List<Byte>();
+            for (int i = 0; i < data.Length; i += 8)
+            {
+                byteList.Add(Convert.ToByte(data.Substring(i, 8), 2));
+            }
+            return Encoding.ASCII.GetString(byteList.ToArray());
+        }
+
+        #region Karistirma, XOR fonksiyonlari (SPN icin)
+        //
+        //
+        /// <summary>
+        /// verilen ikilik tabandaki veriyi karıştırır.
+        /// </summary>
+        /// <param name="textBin"></param>
+        /// <returns>Karıştırılmış veriyi döndüerür</returns>
+        static String Substition(string textBin)
+        {
+            byte[] pIndis = { 2, 8, 12, 5, 9, 0, 14, 4, 11, 1, 15, 6, 3, 10, 7, 13 };
+            String pTextBin = "";
+            for (int i = 0; i < textBin.Length; i++)
+            {
+                pTextBin += (textBin[pIndis[i]]);
+            }
+            return pTextBin;
+        }
+
+        //
+        //
+        /// <summary>
+        /// Karıştırılmış veriyi tekrar aynı düzende tersine karıştırır. 
+        /// Nasıl bozduysa öyle toparlar.
+        /// </summary>
+        /// <param name="textBin"></param>
+        /// <returns>Düzenlenmi şveriyi döndürür</returns>
+        static String ReSubstition(string textBin)
+        {
+            byte[] rpIndis = { 5, 9, 0, 12, 7, 3, 11, 14, 1, 4, 13, 8, 2, 15, 6, 10 };
+            String rpTextBin = "";
+            for (int i = 0; i < textBin.Length; i++)
+            {
+                rpTextBin += (textBin[rpIndis[i]]);
+            }
+            return rpTextBin;
+        }
+
+
+        //
+        //
+        /// <summary>
+        /// İki tane ikilik sistemdeki veriyi birbiri ile xor kapısına sokar sonucu dondurur.
+        /// </summary>
+        /// <param name="bin1"></param>
+        /// <param name="bin2"></param>
+        /// <returns>XOR'lanmış veriyi döndürür.</returns>
+        static String XOR_bin(string bin1, string bin2)
+        {
+            int a = Convert.ToInt32(bin1, 2) ^ Convert.ToInt32(bin2, 2);
+            return (Convert.ToString(a, 2).PadLeft(16, '0'));
+        }
+        #endregion
+
+        //
+        //
+        /// <summary>
+        /// Verilen metni, belirlenen 8 karakterli bir anahtarla şifreler.
+        /// </summary>
+        /// <param name="value"> Şifrelenecek Metin</param>
+        /// <param name="key">Şifrelemede kullanılacak 8 karakterli anahtar.</param>
+        /// <returns>Bir string array döner 0. string BinsifreliMetin, 1. string SifreliMetin</returns>
+        public static string[] SPN_Sifrele(string value, string key, bool isBin = false)
+        {
+            //value veya key nullsa hiç işlem yapma direk null döndür.
+            if (value == null || key == null)
+                return new string[] { null, null };
+
+            //veriyi 8bitlik bloklar halinde yaz.
+            String binMetin = StringToBinary_ASCII(value);
+            //Ama zaten 8bitlik bloklar halinde geldiyse veriyi oldugu gibi kullan.
+            if (isBin)
+                binMetin = value;
+
+            //anahtar verisini 8bitlik bloklar haline getir.
+            String binKey = StringToBinary_ASCII(key);
+            String binSifreliMetin = String.Empty;
+
+            //8bitlik bloklar halinde yazılmış veri 16'nın katı degilse yani iki karakterin katı değilse sonuna boş değer ekle.
+            while (binMetin.Length % 16 != 0)
+            {
+                //ŞAYET 16'NIN KATI DEGILSE MESAJ UZUNLUGU SAGINA 0 EKLE (ÇÖZÜME ETKİ ETMEZ).
+                binMetin = binMetin.PadRight(binMetin.Length + 1, '0');
+            }
+
+
+            //Key'i bölümle
+            String[] xKey = new String[4];
+            xKey[0] = binKey.Substring(0, 16);
+            xKey[1] = binKey.Substring(16, 16);
+            xKey[2] = binKey.Substring(32, 16);
+            xKey[3] = binKey.Substring(48, 16);
+
+            //iki karakter iki karakter birbiri ile karıştır
+            for (int i = 0; i < binMetin.Length; i += 16)
+            {
+                String xor_text = XOR_bin(binMetin.Substring(i, 16), xKey[0]);
+                String subsText = Substition(xor_text);
+
+                xor_text = XOR_bin(subsText, xKey[1]);
+                subsText = Substition(xor_text);
+
+                xor_text = XOR_bin(subsText, xKey[2]);
+                xor_text = XOR_bin(xor_text, xKey[3]);
+                binSifreliMetin += xor_text;
+
+            }
+            //geri döndür.
+            string[] _returns = { BinaryToString_ASCII(binSifreliMetin), binSifreliMetin };
+            return _returns;
+        }
+
+        //
+        //
+        /// <summary>
+        /// Verilen metni, belirlenen 8 karakterli bir anahtarla şifreler.
+        /// </summary>
+        /// <param name="value"> Çözümlenecek Metin</param>
+        /// <param name="key">Çözümlemede kullanılacak 8 karakterli anahtar.(Şifrelemede kullanılan anahtarın aynısı olmalı.)</param>
+        /// <returns>Bir string array döner 0. string BinçözümlenmişMetin, 1. string ÇözümlenmişMetin</returns>
+        public static string[] SPN_Cozumle(string value, string key, bool isBin = false)
+        {
+            //null gelirse işlem yapmadan null döndür.
+            if (value == null || key == null )
+                return new string[] { "", "" };
+
+            //8 bitlik bloklar haline getir.
+            String binSifreliMetin = StringToBinary_ASCII(value);
+            //zaten öyleyse orjinal halini kullan.
+            if (isBin)
+                binSifreliMetin = value;
+
+            //veriyi 8bitlerden olusan iki blogun katı haline tamamla.
+            while (binSifreliMetin.Length % 16 != 0)
+            {
+                //ŞAYET 16'NIN KATI DEGILSE MESAJ UZUNLUGU SAGINA 0 EKLE (ÇÖZÜME ETKİ ETMEZ).
+                binSifreliMetin = binSifreliMetin.PadRight(binSifreliMetin.Length + 1, '0');
+            }
+
+            //anahtari 8bitlik bloklar halinde yaz.
+            String binKey = StringToBinary_ASCII(key);
+            String cozumlenmisMetinBin = String.Empty;
+
+            //Key'i bölümle
+            String[] xKey = new String[4];
+            xKey[0] = binKey.Substring(0, 16);
+            xKey[1] = binKey.Substring(16, 16);
+            xKey[2] = binKey.Substring(32, 16);
+            xKey[3] = binKey.Substring(48, 16);
+
+            for (int i = 0; i < binSifreliMetin.Length; i += 16)
+            {
+                String reXor = XOR_bin(binSifreliMetin.Substring(i, 16), xKey[3]);
+                reXor = XOR_bin(reXor, xKey[2]);
+
+                String reSubsText = ReSubstition(reXor);
+
+                reXor = XOR_bin(reSubsText, xKey[1]);
+                reSubsText = ReSubstition(reXor);
+
+                reXor = XOR_bin(reSubsText, xKey[0]);
+                cozumlenmisMetinBin += reXor;
+
+            }
+
+       
+        //
+        //
+            string[] _returns = { BinaryToString_ASCII(cozumlenmisMetinBin), cozumlenmisMetinBin };
+            return _returns;
+        }
+
+  
+    }
+
+}
+

@@ -1,0 +1,85 @@
+from tkinter import *
+class Sehirrr:
+    def _init_(self):
+        pencere=Tk()
+        pencere.title('ŞEHİR-PLAKA')
+        sehirler_list=['Kırıkkale','Ankara','Trabzon','İzmir','İstanbul','Adana']
+        plaka_list=['01','06','34','35','61','71']
+        Label(pencere,text='Şehir',justify=CENTER).grid(row=0,column=0)
+        Label(pencere,text='Plaka Kodu').grid(row=0,column=1)
+        self.gecicisehir=StringVar()
+        self.kalicisehir=Listbox(pencere,width=15,height=len(sehirler_list),listvariable=self.gecicisehir,exportselection="false")
+        self.kalicisehir.grid(row=1,column=0,padx=10,sticky=N)
+        self.gecicisehir.set(tuple(sehirler_list))
+        self.geciciplaka=StringVar()
+        self.kaliciplaka=Listbox(pencere,width=4,height=len(plaka_list),listvariable=self.geciciplaka,exportselection="false")
+        self.kaliciplaka.grid(row=1,column=1,sticky=N)
+        self.geciciplaka.set(tuple(plaka_list))
+        btn=Button(pencere,text='Doğru Mu? Yanlış Mı?',command=self.kontrol)
+        btn.grid(row=2,column=0)
+        Label(pencere,text='Cevap').grid(row=3,column=1)
+        self.cevap=StringVar()
+        Entry(pencere,width=10,state='readonly',textvariable=self.cevap).grid(row=3,column=2)
+        pencere.mainloop()
+    def kontrol(self):
+        sehir=self.kalicisehir.get(self.kalicisehir.curselection()[0])
+        plaka=self.kaliciplaka.get(self.kaliciplaka.curselection()[0])
+        
+        if sehir=='Adana' and plaka=='01':
+            self.cevap.set('DOĞRU')
+        elif sehir=='Ankara' and plaka=='06':
+            self.cevap.set('DOĞRU')
+        elif sehir=='İstanbul' and plaka=='34':
+            self.cevap.set('DOĞRU')
+        elif sehir=='İzmir' and plaka=='35':
+            self.cevap.set('DOĞRU')
+        elif sehir=='Kırıkkale' and plaka=='71':
+            self.cevap.set('DOĞRU')
+        elif sehir=='Trabzon' and plaka=='61':
+            self.cevap.set('DOĞRU')
+        else:
+            self.cevap.set('Yanlış')
+Sehirrr()
+
+
+
+from tkinter import *
+class Kitalar:
+    def _init_(self):
+        pencere=Tk()
+        pencere.title('DÜNYADAKİ KITALAR-ÜLKELER')
+        Label(pencere,text='Kitalar').grid(row=0,column=0)
+        Label(pencere,text='Ülkeler').grid(row=0,column=1)
+        self.kitakumesi={satir.split(',')[1].rstrip() for satir in open('DOW.txt','r')}
+        self.kitalistesi=list(self.kitakumesi)
+        self.kitalistesi.sort()
+        self.gecicikita=StringVar()
+        self.kalicikita=Listbox(pencere,width=10,height=len(self.kitalistesi),listvariable=self.gecicikita)
+        self.kalicikita.grid(row=1,column=0,padx=10,sticky=N)
+        self.gecicikita.set(tuple(self.kitalistesi))
+        self.kalicikita.bind('<<ListboxSelect>>',self.ulkelerigetir)
+        self.geciciulke=StringVar()
+        self.kaliciulke=Listbox(pencere,width=40,height=len(self.kitalistesi),listvariable=self.geciciulke)
+        self.kaliciulke.grid(row=1,column=1,sticky=N)
+        self.kaliciulke.bind('<<ListboxSelect>>',self.nufusyuzgetir)
+        self.gecicinufusyuz=StringVar()
+        Entry(pencere,width=30,state='readonly',textvariable=self.gecicinufusyuz,justify=CENTER).grid(row=2,column=1,sticky=N)
+        dikeykaydirma=Scrollbar(pencere,orient=VERTICAL)
+        dikeykaydirma.grid(row=1,column=3,sticky=NS)
+        dikeykaydirma["command"]=self.kaliciulke.yview
+        pencere.mainloop()
+    def ulkelerigetir(self,e):
+        kita=self.kalicikita.get(self.kalicikita.curselection())
+        U=[satir.split(',')[0].rstrip() for satir in open('DOW.txt','r') if satir.split(',')[1].rstrip()==kita]
+        self.geciciulke.set(tuple(U))
+    def nufusyuzgetir(self,e):
+        ulke=self.kaliciulke.get(self.kaliciulke.curselection())
+        dosya=open('DOW.txt','r')
+        while True:
+            satir=dosya.readline()
+            satir_al=satir.split(',')
+            if satir_al[0]==ulke:
+                break
+        dosya.close()
+        self.gecicinufusyuz.set(satir_al[4]+satir_al[5])
+Kitalar()
