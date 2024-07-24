@@ -1,0 +1,16 @@
+C:\Users\Ekrem Dinç\Desktop\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\bin\Debug\AlanÇevreHesaplayıcı.exe.config
+C:\Users\Ekrem Dinç\Desktop\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\bin\Debug\AlanÇevreHesaplayıcı.exe
+C:\Users\Ekrem Dinç\Desktop\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\bin\Debug\AlanÇevreHesaplayıcı.pdb
+C:\Users\Ekrem Dinç\Desktop\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\obj\Debug\AlanÇevreHesaplayıcı.csproj.AssemblyReference.cache
+C:\Users\Ekrem Dinç\Desktop\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\obj\Debug\AlanÇevreHesaplayıcı.csproj.SuggestedBindingRedirects.cache
+C:\Users\Ekrem Dinç\Desktop\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\obj\Debug\AlanÇevreHesaplayıcı.csproj.CoreCompileInputs.cache
+C:\Users\Ekrem Dinç\Desktop\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\obj\Debug\AlanÇevreHesaplayıcı.exe
+C:\Users\Ekrem Dinç\Desktop\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\obj\Debug\AlanÇevreHesaplayıcı.pdb
+C:\Users\Ekrem Dinç\Desktop\Staj\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\bin\Debug\AlanÇevreHesaplayıcı.exe.config
+C:\Users\Ekrem Dinç\Desktop\Staj\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\bin\Debug\AlanÇevreHesaplayıcı.exe
+C:\Users\Ekrem Dinç\Desktop\Staj\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\bin\Debug\AlanÇevreHesaplayıcı.pdb
+C:\Users\Ekrem Dinç\Desktop\Staj\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\obj\Debug\AlanÇevreHesaplayıcı.csproj.AssemblyReference.cache
+C:\Users\Ekrem Dinç\Desktop\Staj\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\obj\Debug\AlanÇevreHesaplayıcı.csproj.SuggestedBindingRedirects.cache
+C:\Users\Ekrem Dinç\Desktop\Staj\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\obj\Debug\AlanÇevreHesaplayıcı.csproj.CoreCompileInputs.cache
+C:\Users\Ekrem Dinç\Desktop\Staj\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\obj\Debug\AlanÇevreHesaplayıcı.exe
+C:\Users\Ekrem Dinç\Desktop\Staj\AlanÇevreHesaplayıcı\AlanÇevreHesaplayıcı\obj\Debug\AlanÇevreHesaplayıcı.pdb
